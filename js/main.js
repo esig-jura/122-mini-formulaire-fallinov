@@ -12,20 +12,33 @@ const txtMDPConfirm = document.getElementById('mdpc');
 console.log(formulaire, txtMDP, txtMDPConfirm);
 
 // Ecouter l'envoi du formulaire
-formulaire.addEventListener('submit', function coucou(event) {
+formulaire.addEventListener('submit', (event) => {
     // Stoppe l'envoi du formulaire
     event.preventDefault();
+    // Tableau des erreurs
+    let erreurs = [];
 
-    // Récupére la valeur du mdp et de la confirmation du mdp
-    let mdp = txtMDP.value;
-    let mdpConfirm = txtMDPConfirm.value;
-
-    // Tester si les mdp sont identiques
-    if(mdp !== mdpConfirm) {
-        alert('Les mots de passes sont différents !!!')
-    } else {
-        alert('Compte créé avec succès !');
-        // Envoyer le formulaire
-        formulaire.submit();
+    // Tester si mdp > 3
+    if (txtMDP.value.length < 3) {
+        erreurs.push('Le mot de passe doit contenir au moins 3 caractères !');
     }
+    // Tester si les mdp sont identiques
+    if (txtMDP.value !== txtMDPConfirm.value) {
+        erreurs.push('Les mots de passes sont différents !!!');
+    }
+
+    // Si il y a des erreurs
+    if(erreurs.length > 0) {
+        let msg = '';
+        for (let err of erreurs) {
+            msg += ' \n - ' + err;
+        }
+        alert(msg);
+        // Stop la fonction
+        return;
+    }
+
+    alert('Compte créé avec succès !');
+    // Envoyer le formulaire
+    formulaire.submit();
 });
